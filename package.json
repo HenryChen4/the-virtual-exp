@@ -1,0 +1,19 @@
+{
+  "name": "the-virtual-exp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "mongodb": "^3.6.2",
+    "nodemon": "^2.0.5",
+    "path": "^0.12.7"
+  }
+}
