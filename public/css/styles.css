@@ -1,0 +1,25 @@
+.custom-card:hover {
+    cursor: pointer;
+}
+
+.bg-custom {
+    background-color: #4287f5;
+}
+
+.light {
+    color: white !important;
+}
+
+#review-sign {
+    margin-top: 20px;
+}
+
+#review-body {
+    width: 100%;
+    background-color: #CAF0F8;
+}
+
+.custom-select {
+    border-radius: 0;
+    background-color: #CAF0F8;
+}

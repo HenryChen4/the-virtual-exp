@@ -26,7 +26,9 @@ app.get('/login', (req, res)=>{
 })
 
 app.get('/home', (req, res)=>{
-    res.send('asdf')
+    res.render('home', {
+        title: 'The Virtual Exp'
+    })
 })
 
 app.listen(port, ()=>{
