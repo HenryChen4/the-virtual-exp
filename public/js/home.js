@@ -98,7 +98,25 @@ const generateCardDOM = (title, bodyContent, modalId)=>{
     return parentCard
 }
 
-const generateModalDOM = (reviews, modalId, courseName)=>{
+const generateReviewCards = (courseName, courseBody)=>{
+    let parentCard = document.createElement('div')
+    parentCard.classList.add('card', 'mb-3', 'custom-card')
+    let cardBody = document.createElement('div')
+    cardBody.classList.add('card-body')
+    cardBody.textContent = courseBody
+    parentCard.appendChild(cardBody)
+    return parentCard
+}
+
+const generateModalDOM = (modalId, courseName)=>{
+    let allReviews = getData('Reviews')
+    let targettedReviews = allReviews.filter((review)=>{
+        return review.courseName === courseName
+    })
+    let reviewCards = []
+    targettedReviews.forEach((review)=>{
+        reviewCards.push(generateReviewCards(courseName, review.review))
+    })
     let parentModal = document.createElement('div')
     parentModal.classList.add('modal', 'fade', 'position')
     parentModal.id = modalId
@@ -114,6 +132,9 @@ const generateModalDOM = (reviews, modalId, courseName)=>{
     modalHeader.appendChild(modalTitle)
     let modalBody = document.createElement('div')
     modalBody.classList.add('modal-body')
+    reviewCards.forEach((card)=>{
+        modalBody.appendChild(card)
+    })
     let modalFooter = document.createElement('div')
     modalFooter.classList.add('modal-footer')
     modalContent.appendChild(modalHeader)
@@ -147,7 +168,7 @@ const generateFeaturedCourses = (featuredCourses, generateModal)=>{
         overallBody.appendChild(timeBody)
         if(generateModal){
             document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
-            document.querySelector('body').appendChild(generateModalDOM([], ID, course.courseName))
+            document.querySelector('body').appendChild(generateModalDOM(ID, course.courseName))
         } else {
             document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
         }
@@ -295,6 +316,7 @@ searchField.addEventListener('input', (e)=>{
             overallBody.appendChild(diffBody)
             overallBody.appendChild(timeBody)
             document.querySelector('#recommendations').appendChild(generateCardDOM(rCourse.courseName, overallBody, ID))
+            document.querySelector('#recommendations').appendChild(generateModalDOM(ID, rCourse.courseName))
         })
     } else {
         document.querySelector('#recommendations').innerHTML = ''
