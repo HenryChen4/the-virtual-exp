@@ -7,22 +7,6 @@ const getData = (query)=>{
     }
 }
 
-const randomThree = (arry)=>{
-    let newArry = []
-    if(arry.length > 3){
-        for(let i = 0; i < 3; i++){
-            if(arry.length < 3){
-                newArry.push(arry[0])
-                return newArry
-            }
-            const randomNum = Math.floor(Math.random()*arry.length)
-            newArry.push(arry[randomNum])
-            arry.splice(randomNum, 1)
-        }
-    } 
-    localStorage.setItem('featuredCourses', JSON.stringify(arry))
-}
-
 const generateColorText = (color, text)=>{
     let textEl = document.createElement('span')
     textEl.classList.add(color)
@@ -146,10 +130,19 @@ const generateModalDOM = (modalId, courseName)=>{
 }
 
 let courses = getData('Courses')
-randomThree(courses)
 
-const generateFeaturedCourses = (featuredCourses, generateModal)=>{
+const generateFeaturedCourses = (courses, generateModal)=>{
     document.querySelector('#featured-courses-body').innerHTML = ''
+    let featuredCourses = []
+    if(courses.length > 3){
+        for(let i = 0; i < 3; i++){
+            featuredCourses.push(courses[i])
+        }
+    } else {
+        courses.forEach((course)=>{
+            featuredCourses.push(course)
+        })
+    }
     featuredCourses.forEach((course)=>{
         let ID = Math.random().toString(36).substr(2, 9)
         let rateBody = document.createElement('p')
@@ -175,8 +168,6 @@ const generateFeaturedCourses = (featuredCourses, generateModal)=>{
     })
 }
 
-let featuredCourses = getData('featuredCourses')
-
 if(sessionStorage.getItem('isLoggedIn') === null){
     document.querySelector('#review-body').innerHTML = ''
     document.querySelector('body').innerHTML = ''
@@ -184,14 +175,15 @@ if(sessionStorage.getItem('isLoggedIn') === null){
     errorEl.textContent = 'Please sign in or sign up.'
     document.querySelector('body').appendChild(errorEl)
 } else {
-    generateFeaturedCourses(featuredCourses, true)
+    alert('PLEASE READ!! THANK YOU!! \n This is my project for HackTheU this year. I thought of this idea last week when my classmates and I had to choose classes for winter term. A lot of my classmates and me were apprehensive about choosing the wrong course because we dont want to mess up junior year and we dont know which courses were easier and can fit in our schedule. Another key thing to point out is the lack of databases and true backend code in this project. This weekend was especially busy for me because I had a NMSQT yesterday and I have an AP Physics and AP US History test on monday. This is partly the reason, I didnt implement databases but the other part is due to the limits on my knowledge. I have only recently (2-3 weeks ago) dived into mongodb. So most of this is built with localstorage. There is also a bug with the reviews button and modal which I couldnt find the solution to.Thank you for considering my project!!')
+    generateFeaturedCourses(courses, true)
 }
 
 document.querySelector('#review-body').addEventListener('input', ()=>{
     if(document.querySelector('#review-body').value.length > 150){
         document.querySelector('#review-body').value = document.querySelector('#review-body').value.substring(0, 100)
     }  
-    document.querySelector('#word-count').textContent = document.querySelector('#review-body').value.length + '/100'
+    document.querySelector('#word-count').textContent = document.querySelector('#review-body').value.length + '/150'
 })
 
 const calculateAvg = (newValue, query, valueQuery)=>{
@@ -246,10 +238,7 @@ document.querySelector('#post-review').addEventListener('submit', (e)=>{
         validatedCourses.push(courseAttributes)
     }
     localStorage.setItem('Courses', JSON.stringify(validatedCourses))
-    courses = getData('Courses')
-    randomThree(courses)
-    featuredCourses = getData('featuredCourses')
-    generateFeaturedCourses(featuredCourses, false)
+    generateFeaturedCourses(validatedCourses, false)
 })  
 
 const processStrings = (word)=>{
@@ -293,6 +282,7 @@ const allCourses = getData('Courses')
 const searchField = document.querySelector('#course-search')
 
 searchField.addEventListener('input', (e)=>{
+    alert('PLEASE READ!! THANK YOU!! \nThis search system I designed completely by myself and can recognize nicknames as words. For example type in AP CS instead of AP computer science or Chem H instead of Chemistry Honors. This is built for ease of use and to prevent migraines.')
     if(searchField.value.length > 0){
         let recommendations = allCourses.filter((course)=>{
             return nlp(searchField.value, course.courseName)
