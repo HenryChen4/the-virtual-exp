@@ -15,12 +15,12 @@
         <div class="container">
             <a class="navbar-brand light" href="#">{{title}}</a>
             <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="course-search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" id="main-body">
         <form id="post-review">
             <h5 id="review-sign">Review a course:</h5>
             <hr>
@@ -32,7 +32,7 @@
             </select>
             <br>
             <textarea id="review-body" cols="100" rows="5" style="resize: none;"></textarea>
-            <p id="word-count" class="text-secondary">0/100</p>
+            <p id="word-count" class="text-secondary">0/150</p>
             <label for="course-difficulty">Course difficulty</label>
             <input type="range" min="0" max="5" value="3" id="course-difficulty">
             <br>
@@ -50,6 +50,7 @@
             <div id="featured-courses-body"></div>
         </div>
     </div>
+    <div id="recommendations" class="container custom-con"></div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

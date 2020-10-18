@@ -1,7 +1,3 @@
-.custom-card:hover {
-    cursor: pointer;
-}
-
 .bg-custom {
     background-color: #4287f5;
 }
@@ -16,10 +12,22 @@
 
 #review-body {
     width: 100%;
-    background-color: #CAF0F8;
 }
 
 .custom-select {
     border-radius: 0;
-    background-color: #CAF0F8;
+}
+
+.float-left {
+    width: 50%;
+    float: left;
+}
+
+.float-right {
+    margin-top: 40px;
+    float: right
+}
+
+#recommendations {
+    margin-top: 20px;
 }

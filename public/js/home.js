@@ -36,43 +36,43 @@ const returnStringRes = (course, name)=>{
         case 'hw':
             avgRate = course.avgHwLoad
             if(avgRate <= 1){
-                return generateColorText('text-primary', 'None')
+                return generateColorText('text-primary', '~ 5 minutes')
             } else if(avgRate <= 2){
-                return generateColorText('text-info', 'Quick and easy')
+                return generateColorText('text-info', '~ 15 minutes')
             } else if(avgRate <= 3){
-                return generateColorText('text-success', 'Moderate')
+                return generateColorText('text-success', '~ 30-45 minutes')
             } else if(avgRate <= 4){
-                return generateColorText('text-warning', 'Quite a bit')
+                return generateColorText('text-warning', '> 1 hour')
             } else if(avgRate <= 5){
-                return generateColorText('text-danger', 'Impossible to complete in under 2 hours')
+                return generateColorText('text-danger', '> 2 hours')
             }
             break
         case 'diff':
             avgRate = course.avgDifficulty
             if(avgRate <= 1){
-                return generateColorText('text-primary', 'Tests are too easy')
+                return generateColorText('text-primary', 'Easy A')
             } else if(avgRate <= 2){
-                return generateColorText('text-info', 'Tests have very few curve ball questions')
+                return generateColorText('text-info', 'Study a little')
             } else if(avgRate <= 3){
-                return generateColorText('text-success', 'Tests have a few weird questions')
+                return generateColorText('text-success', 'Study quite a bit')
             } else if(avgRate <= 4){
-                return generateColorText('text-warning', 'Tests are full of hard questions')
+                return generateColorText('text-warning', 'Hard A')
             } else if(avgRate <= 5){
-                return generateColorText('text-danger', 'Tests are hard to ace even if you studied')
+                return generateColorText('text-danger', 'Impossible A')
             }
             break
         case 'time':
             avgRate = course.avgTime
             if(avgRate <= 1){
-                return generateColorText('text-primary', 'No time out of school')
+                return generateColorText('text-primary', '< 30 minutes per week')
             } else if(avgRate <= 2){
-                return generateColorText('text-info', 'Less than an hour')
+                return generateColorText('text-info', '~ 1 hour per week')
             } else if(avgRate <= 3){
-                return generateColorText('text-success', 'Around an hour')
+                return generateColorText('text-success', '> 1 hour per week')
             } else if(avgRate <= 4){
-                return generateColorText('text-warning', 'Big chunk of your time outta school')
+                return generateColorText('text-warning', '> 3 hours per week')
             } else if(avgRate <= 5){
-                return generateColorText('text-danger', 'Will make you stay up past midnight')
+                return generateColorText('text-danger', 'Will make you stay up past midnight every night')
             }
             break
     }
@@ -81,15 +81,19 @@ const returnStringRes = (course, name)=>{
 const generateCardDOM = (title, bodyContent, modalId)=>{
     let parentCard = document.createElement('div')
     parentCard.classList.add('card', 'mb-3', 'custom-card')
-    parentCard.setAttribute('data-toggle', 'modal')
-    parentCard.setAttribute('data-target', '#'+modalId)
     let cardTitle = document.createElement('h5')
     cardTitle.classList.add('card-header')
     cardTitle.textContent = title
     let cardBody = document.createElement('div')
+    let cardButton = document.createElement('button')
+    cardButton.classList.add('btn', 'btn-primary', 'float-right')
+    cardButton.textContent = 'Reviews'
+    cardButton.setAttribute('data-toggle', 'modal')
+    cardButton.setAttribute('data-target', '#'+modalId)
     cardBody.classList.add('card-body')
     parentCard.appendChild(cardTitle)
     cardBody.appendChild(bodyContent)
+    cardBody.appendChild(cardButton)
     parentCard.appendChild(cardBody)
     return parentCard
 }
@@ -123,7 +127,7 @@ const generateModalDOM = (reviews, modalId, courseName)=>{
 let courses = getData('Courses')
 randomThree(courses)
 
-const generateFeaturedCourses = (featuredCourses)=>{
+const generateFeaturedCourses = (featuredCourses, generateModal)=>{
     document.querySelector('#featured-courses-body').innerHTML = ''
     featuredCourses.forEach((course)=>{
         let ID = Math.random().toString(36).substr(2, 9)
@@ -137,11 +141,16 @@ const generateFeaturedCourses = (featuredCourses)=>{
         timeBody.textContent = 'Time committment: '
         timeBody.appendChild(returnStringRes(course,'time'))
         let overallBody = document.createElement('div')
+        overallBody.classList.add('float-left')
         overallBody.appendChild(rateBody)
         overallBody.appendChild(diffBody)
         overallBody.appendChild(timeBody)
-        document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
-        document.querySelector('body').appendChild(generateModalDOM([], ID, course.courseName))
+        if(generateModal){
+            document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
+            document.querySelector('body').appendChild(generateModalDOM([], ID, course.courseName))
+        } else {
+            document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
+        }
     })
 }
 
@@ -154,12 +163,12 @@ if(sessionStorage.getItem('isLoggedIn') === null){
     errorEl.textContent = 'Please sign in or sign up.'
     document.querySelector('body').appendChild(errorEl)
 } else {
-    generateFeaturedCourses(featuredCourses)
+    generateFeaturedCourses(featuredCourses, true)
 }
 
 document.querySelector('#review-body').addEventListener('input', ()=>{
-    if(document.querySelector('#review-body').value.length > 100){
-        document.querySelector('#review-body').value.substring(101, 1)
+    if(document.querySelector('#review-body').value.length > 150){
+        document.querySelector('#review-body').value = document.querySelector('#review-body').value.substring(0, 100)
     }  
     document.querySelector('#word-count').textContent = document.querySelector('#review-body').value.length + '/100'
 })
@@ -219,7 +228,7 @@ document.querySelector('#post-review').addEventListener('submit', (e)=>{
     courses = getData('Courses')
     randomThree(courses)
     featuredCourses = getData('featuredCourses')
-    generateFeaturedCourses(featuredCourses)
+    generateFeaturedCourses(featuredCourses, false)
 })  
 
 const processStrings = (word)=>{
@@ -247,7 +256,7 @@ const convertToArry = (str)=>{
     return arry
 }
 
-const nlp = (word, phrase, compareCallback)=>{
+const nlp = (word, phrase)=>{
     let processedWord = processStrings(word)
     let processedPhrase = processStrings(phrase)
     let arryPhrase = convertToArry(processedPhrase)
@@ -256,6 +265,39 @@ const nlp = (word, phrase, compareCallback)=>{
         comparisonArry.push(arryPhrase.indexOf(processedWord[i]))
         arryPhrase.splice(arryPhrase.indexOf(processedWord[i]), 1, " ")
     }
-    return compareCallback(comparisonArry)
+    return detectSort(comparisonArry)
 }
 
+const allCourses = getData('Courses')
+const searchField = document.querySelector('#course-search')
+
+searchField.addEventListener('input', (e)=>{
+    if(searchField.value.length > 0){
+        let recommendations = allCourses.filter((course)=>{
+            return nlp(searchField.value, course.courseName)
+        })
+        document.querySelector('#main-body').style.display = 'none'
+        document.querySelector('#recommendations').innerHTML = ''
+        recommendations.forEach((rCourse)=>{
+            let ID = Math.random().toString(36).substr(2, 9)
+            let rateBody = document.createElement('p')
+            rateBody.textContent = 'Homework load: '
+            rateBody.appendChild(returnStringRes(rCourse, 'hw'))
+            let diffBody = document.createElement('p')
+            diffBody.textContent = 'Course difficulty: '
+            diffBody.appendChild(returnStringRes(rCourse, 'diff'))
+            let timeBody = document.createElement('p')
+            timeBody.textContent = 'Time committment: '
+            timeBody.appendChild(returnStringRes(rCourse,'time'))
+            let overallBody = document.createElement('div')
+            overallBody.classList.add('float-left')
+            overallBody.appendChild(rateBody)
+            overallBody.appendChild(diffBody)
+            overallBody.appendChild(timeBody)
+            document.querySelector('#recommendations').appendChild(generateCardDOM(rCourse.courseName, overallBody, ID))
+        })
+    } else {
+        document.querySelector('#recommendations').innerHTML = ''
+        document.querySelector('#main-body').style.display = 'block' 
+    }
+})
