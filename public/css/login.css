@@ -1,0 +1,70 @@
+.custom-form {
+    width: 400px;
+    border-radius: 4px;
+    padding: 20px 20px 30px 20px;
+    background: rgb(0,0,0);
+    background: linear-gradient(16deg, rgba(0,0,0,1) 0%, rgba(68,59,200,1) 38%, rgba(45,154,225,1) 64%, rgba(28,207,244,1) 84%);
+}
+
+.custom-container {
+    background-color: #CAF0F8;
+    border-bottom: 2px solid #e3e3e3;
+    height: 70%;
+}
+
+.custom-container input{
+    border: none !important;
+    background-color: #CAF0F8 !important;
+    border-radius: 0px !important;
+    margin-bottom: 2px;
+    height: 70%;
+}
+
+.custom-container small{
+    padding: 5px 10px;
+}
+
+.custom-submit {
+    background-color: #48CAE4;
+    height: 40px;
+    width: 100%;
+    border: none;
+}
+
+input:focus, input.form-control:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.alert {
+    border-radius: 0px !important;
+    font-size: 80%;
+}
+
+.container {
+    margin-top: 200px;
+}
+
+html { 
+  background: url(Assets/Imgs/indexBG.jpeg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+    background: none;
+}
+
+#switcher {
+    color: #0096C7; 
+    margin-top: 5px;
+}
+
+#switcher a {
+    color: #00B4D8
+}

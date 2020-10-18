@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/signup.css">
 
-    <title>The Virtual Bubble</title>
+    <title>{{title}}</title>
   </head>
   <body>
     <div class="container custom-form">
-        <div id="error-field"></div>
-        <form>
+        <form id="sign-up">
             <h3 class="signup-title">Create an account</h3>
+            <div id="error-field"></div>
             <div class="form-group custom-container">
                 <small id="emailHelp" class="form-text">Email</small>
                 <input type="email" class="form-control" id="email" aria-describedby="email" name="email">
@@ -30,17 +30,17 @@
                 <option value="11th">11th</option>
                 <option value="12th">12th</option>
             </select>
-            <button type="submit" class="btn btn-primary custom-submit" name="submit" id="sign-up">Sign up</button>
+            <button type="submit" class="btn btn-primary custom-submit" name="submit">Sign up</button>
             <div style="text-align: center;">
-                <small id="switcher" class="form-text">Have an existing account? <a>Log in</a></small>
+                <small id="switcher" class="form-text">Have an existing account? <a href="/login">Log in</a></small>
             </div>
         </form>
     </div>
     <!-- Optional JavaScript -->
+    <script src="js/signup.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="js/signup.js"></script>
   </body>
 </html>

@@ -19,6 +19,16 @@ app.get('', (req, res)=>{
     })
 })
 
+app.get('/login', (req, res)=>{
+    res.render('login', {
+        title: 'The Virtual Exp'
+    })
+})
+
+app.get('/home', (req, res)=>{
+    res.send('asdf')
+})
+
 app.listen(port, ()=>{
     console.log('Server is up and running!')
 })
