@@ -31,3 +31,7 @@
 #recommendations {
     margin-top: 20px;
 }
+
+.navbar {
+    position: sticky !important;
+}

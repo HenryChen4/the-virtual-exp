@@ -237,6 +237,7 @@ document.querySelector('#post-review').addEventListener('submit', (e)=>{
         validatedCourses.push(courseAttributes)
     }
     localStorage.setItem('Courses', JSON.stringify(validatedCourses))
+    console.log(getData('Courses'))
     generateFeaturedCourses(validatedCourses, false)
 })  
 
@@ -271,8 +272,12 @@ const nlp = (word, phrase)=>{
     let arryPhrase = convertToArry(processedPhrase)
     let comparisonArry = []
     for(let i = 0; i < processedWord.length; i++){
-        comparisonArry.push(arryPhrase.indexOf(processedWord[i]))
-        arryPhrase.splice(arryPhrase.indexOf(processedWord[i]), 1, " ")
+        if(arryPhrase.indexOf(processedWord[i]) > -1){
+            comparisonArry.push(arryPhrase.indexOf(processedWord[i]))
+            arryPhrase.splice(arryPhrase.indexOf(processedWord[i]), 1, " ")
+        } else {
+            return false
+        }
     }
     return detectSort(comparisonArry)
 }
@@ -287,25 +292,30 @@ searchField.addEventListener('input', (e)=>{
         })
         document.querySelector('#main-body').style.display = 'none'
         document.querySelector('#recommendations').innerHTML = ''
-        recommendations.forEach((rCourse)=>{
-            let ID = Math.random().toString(36).substr(2, 9)
-            let rateBody = document.createElement('p')
-            rateBody.textContent = 'Homework load: '
-            rateBody.appendChild(returnStringRes(rCourse, 'hw'))
-            let diffBody = document.createElement('p')
-            diffBody.textContent = 'Course difficulty: '
-            diffBody.appendChild(returnStringRes(rCourse, 'diff'))
-            let timeBody = document.createElement('p')
-            timeBody.textContent = 'Time committment: '
-            timeBody.appendChild(returnStringRes(rCourse,'time'))
-            let overallBody = document.createElement('div')
-            overallBody.classList.add('float-left')
-            overallBody.appendChild(rateBody)
-            overallBody.appendChild(diffBody)
-            overallBody.appendChild(timeBody)
-            document.querySelector('#recommendations').appendChild(generateCardDOM(rCourse.courseName, overallBody, ID))
-            document.querySelector('#recommendations').appendChild(generateModalDOM(ID, rCourse.courseName))
-        })
+        if(recommendations.length > 0){
+            recommendations.forEach((rCourse)=>{
+                let ID = Math.random().toString(36).substr(2, 9)
+                let rateBody = document.createElement('p')
+                rateBody.textContent = 'Homework load: '
+                rateBody.appendChild(returnStringRes(rCourse, 'hw'))
+                let diffBody = document.createElement('p')
+                diffBody.textContent = 'Course difficulty: '
+                diffBody.appendChild(returnStringRes(rCourse, 'diff'))
+                let timeBody = document.createElement('p')
+                timeBody.textContent = 'Time committment: '
+                timeBody.appendChild(returnStringRes(rCourse,'time'))
+                let overallBody = document.createElement('div')
+                overallBody.classList.add('float-left')
+                overallBody.appendChild(rateBody)
+                overallBody.appendChild(diffBody)
+                overallBody.appendChild(timeBody)
+                document.querySelector('#recommendations').appendChild(generateCardDOM(rCourse.courseName, overallBody, ID))
+                document.querySelector('#recommendations').appendChild(generateModalDOM(ID, rCourse.courseName))
+            })
+        } else {
+            document.querySelector('#recommendations').classList.add('alert-link')
+            document.querySelector('#recommendations').textContent = `No reviews found for ${searchField.value}`
+        }
     } else {
         document.querySelector('#recommendations').innerHTML = ''
         document.querySelector('#main-body').style.display = 'block' 
