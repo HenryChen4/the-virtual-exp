@@ -71,7 +71,7 @@ const generateCardDOM = (title, bodyContent, modalId)=>{
     let cardBody = document.createElement('div')
     let cardButton = document.createElement('button')
     cardButton.classList.add('btn', 'btn-primary', 'float-right')
-    cardButton.textContent = 'Reviews'
+    cardButton.textContent = 'Reviews' 
     cardButton.setAttribute('data-toggle', 'modal')
     cardButton.setAttribute('data-target', '#'+modalId)
     cardBody.classList.add('card-body')
