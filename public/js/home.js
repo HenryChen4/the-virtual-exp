@@ -15,7 +15,7 @@ const generateColorText = (color, text)=>{
 }
 
 const returnStringRes = (course, name)=>{
-    let avgRate
+    let avgRate 
     switch(name){
         case 'hw':
             avgRate = course.avgHwLoad
