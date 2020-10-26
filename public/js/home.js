@@ -62,25 +62,25 @@ const returnStringRes = (course, name)=>{
     }
 }
 
-const generateCardDOM = (title, bodyContent, modalId)=>{
-    let parentCard = document.createElement('div')
-    parentCard.classList.add('card', 'mb-3', 'custom-card')
-    let cardTitle = document.createElement('h5')
-    cardTitle.classList.add('card-header')
-    cardTitle.textContent = title
-    let cardBody = document.createElement('div')
-    let cardButton = document.createElement('button')
-    cardButton.classList.add('btn', 'btn-primary', 'float-right')
-    cardButton.textContent = 'Reviews' 
-    cardButton.setAttribute('data-toggle', 'modal')
-    cardButton.setAttribute('data-target', '#'+modalId)
-    cardBody.classList.add('card-body')
-    parentCard.appendChild(cardTitle)
-    cardBody.appendChild(bodyContent)
-    cardBody.appendChild(cardButton)
-    parentCard.appendChild(cardBody)
-    return parentCard
-}
+// const generateCardDOM = (title, bodyContent, modalId)=>{
+//     let parentCard = document.createElement('div')
+//     parentCard.classList.add('card', 'mb-3', 'custom-card')
+//     let cardTitle = document.createElement('h5')
+//     cardTitle.classList.add('card-header')
+//     cardTitle.textContent = title
+//     let cardBody = document.createElement('div')
+//     let cardButton = document.createElement('a')
+//     cardButton.classList.add('btn', 'btn-primary', 'float-right')
+//     cardButton.textContent = 'Reviews' 
+//     cardButton.setAttribute('data-toggle', 'modal')
+//     cardButton.setAttribute('href', '#'+modalId)
+//     cardBody.classList.add('card-body')
+//     parentCard.appendChild(cardTitle)
+//     cardBody.appendChild(bodyContent)
+//     cardBody.appendChild(cardButton)
+//     parentCard.appendChild(cardBody)
+//     return parentCard
+// }
 
 const generateReviewCards = (courseName, courseBody)=>{
     let parentCard = document.createElement('div')
@@ -127,6 +127,50 @@ const generateModalDOM = (modalId, courseName)=>{
     modalDialog.appendChild(modalContent)
     parentModal.appendChild(modalDialog)
     return parentModal
+}
+
+// const generateCollapseDOM = (collapseID, courseName)=>{
+//     let allReviews = getData('Reviews')
+//     let targettedReviews = allReviews.filter((review)=>{
+//         return review.courseName === courseName
+//     })
+//     let reviewCards = []
+//     targettedReviews.forEach((review)=>{
+//         reviewCards.push(generateReviewCards(courseName, review.review))
+//     })
+//     let parentCollapse = document.createElement('div')
+//     parentCollapse.classList.add('collapse')
+//     parentCollapse.id = collapseID
+//     reviewCards.forEach((card)=>{
+//         parentCollapse.appendChild(card)
+//     })
+//     return parentCollapse
+// }
+
+// <div class="collapse" id="collapseExample">
+//   <div class="card card-body">
+//     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+//   </div>
+// </div>
+
+const generateCardDOM = (title, bodyContent, collapseId)=>{
+    let parentCard = document.createElement('div')
+    let cardTitle = document.createElement('h5')
+    let cardBody = document.createElement('div')
+    let cardButton = document.createElement('button')
+    cardButton.classList.add('btn', 'btn-primary', 'float-right')
+    cardButton.setAttribute('data-toggle', 'collapse')
+    cardButton.setAttribute('href', '#'+collapseId)
+    parentCard.classList.add('card', 'mb-3', 'custom-card')
+    cardTitle.classList.add('card-header')
+    cardBody.classList.add('card-body')
+    cardButton.textContent = 'Reviews'
+    cardTitle.textContent = title
+    cardBody.appendChild(bodyContent)
+    parentCard.appendChild(cardTitle)
+    parentCard.appendChild(cardBody)
+    parentCard.appendChild(cardButton)
+    return parentCard
 }
 
 let courses = getData('Courses')
@@ -237,7 +281,6 @@ document.querySelector('#post-review').addEventListener('submit', (e)=>{
         validatedCourses.push(courseAttributes)
     }
     localStorage.setItem('Courses', JSON.stringify(validatedCourses))
-    console.log(getData('Courses'))
     generateFeaturedCourses(validatedCourses, false)
 })  
 
