@@ -15,19 +15,19 @@ app.set('views', viewsPath)
 
 app.get('', (req, res)=>{
     res.render('signup', {
-        title: 'The Virtual Exp'
+        title: 'asdf'
     })
 })
 
 app.get('/login', (req, res)=>{
     res.render('login', {
-        title: 'The Virtual Exp'
+        title: 'asdf'
     })
 })
 
 app.get('/home', (req, res)=>{
     res.render('home', {
-        title: 'The Virtual Exp'
+        title: 'asdf'
     })
 })
 

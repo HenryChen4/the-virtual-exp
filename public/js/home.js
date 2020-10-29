@@ -105,7 +105,7 @@ const generateModalDOM = (modalId, courseName)=>{
     parentModal.classList.add('modal', 'fade', 'position')
     parentModal.id = modalId
     let modalDialog = document.createElement('div')
-    modalDialog.classList.add('modal-dialog')
+    modalDialog.classList.add('modal-dialog', 'modal-lg')
     let modalContent = document.createElement('div')
     modalContent.classList.add('modal-content')
     let modalHeader = document.createElement('div')
@@ -119,11 +119,8 @@ const generateModalDOM = (modalId, courseName)=>{
     reviewCards.forEach((card)=>{
         modalBody.appendChild(card)
     })
-    let modalFooter = document.createElement('div')
-    modalFooter.classList.add('modal-footer')
     modalContent.appendChild(modalHeader)
     modalContent.appendChild(modalBody)
-    modalContent.appendChild(modalFooter)
     modalDialog.appendChild(modalContent)
     parentModal.appendChild(modalDialog)
     return parentModal
@@ -153,17 +150,31 @@ const generateModalDOM = (modalId, courseName)=>{
 //   </div>
 // </div>
 
+const generateRandomColor = ()=>{
+    var letters = 'BCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
+}
+
 const generateCardDOM = (title, bodyContent, collapseId)=>{
+    let randomColor = generateRandomColor()
     let parentCard = document.createElement('div')
     let cardTitle = document.createElement('h5')
     let cardBody = document.createElement('div')
     let cardButton = document.createElement('button')
+    parentCard.style.backgroundColor = randomColor
     cardButton.classList.add('btn', 'btn-primary', 'float-right')
-    cardButton.setAttribute('data-toggle', 'collapse')
+    cardButton.setAttribute('data-toggle', 'modal')
     cardButton.setAttribute('href', '#'+collapseId)
     parentCard.classList.add('card', 'mb-3', 'custom-card')
     cardTitle.classList.add('card-header')
     cardBody.classList.add('card-body')
+    cardButton.style.backgroundColor = randomColor
+    cardButton.style.color = 'black'
+    cardButton.style.borderRadius = '0'
     cardButton.textContent = 'Reviews'
     cardTitle.textContent = title
     cardBody.appendChild(bodyContent)
