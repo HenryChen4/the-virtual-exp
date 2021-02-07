@@ -62,26 +62,6 @@ const returnStringRes = (course, name)=>{
     }
 }
 
-// const generateCardDOM = (title, bodyContent, modalId)=>{
-//     let parentCard = document.createElement('div')
-//     parentCard.classList.add('card', 'mb-3', 'custom-card')
-//     let cardTitle = document.createElement('h5')
-//     cardTitle.classList.add('card-header')
-//     cardTitle.textContent = title
-//     let cardBody = document.createElement('div')
-//     let cardButton = document.createElement('a')
-//     cardButton.classList.add('btn', 'btn-primary', 'float-right')
-//     cardButton.textContent = 'Reviews' 
-//     cardButton.setAttribute('data-toggle', 'modal')
-//     cardButton.setAttribute('href', '#'+modalId)
-//     cardBody.classList.add('card-body')
-//     parentCard.appendChild(cardTitle)
-//     cardBody.appendChild(bodyContent)
-//     cardBody.appendChild(cardButton)
-//     parentCard.appendChild(cardBody)
-//     return parentCard
-// }
-
 const generateReviewCards = (courseName, courseBody)=>{
     let parentCard = document.createElement('div')
     parentCard.classList.add('card', 'mb-3', 'custom-card')
@@ -126,49 +106,14 @@ const generateModalDOM = (modalId, courseName)=>{
     return parentModal
 }
 
-// const generateCollapseDOM = (collapseID, courseName)=>{
-//     let allReviews = getData('Reviews')
-//     let targettedReviews = allReviews.filter((review)=>{
-//         return review.courseName === courseName
-//     })
-//     let reviewCards = []
-//     targettedReviews.forEach((review)=>{
-//         reviewCards.push(generateReviewCards(courseName, review.review))
-//     })
-//     let parentCollapse = document.createElement('div')
-//     parentCollapse.classList.add('collapse')
-//     parentCollapse.id = collapseID
-//     reviewCards.forEach((card)=>{
-//         parentCollapse.appendChild(card)
-//     })
-//     return parentCollapse
-// }
-
-// <div class="collapse" id="collapseExample">
-//   <div class="card card-body">
-//     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-//   </div>
-// </div>
-
-const generateRandomColor = ()=>{
-    var letters = 'BCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * letters.length)];
-    }
-    return color;
-}
-
-const generateCardDOM = (title, bodyContent, collapseId)=>{
+const generateCardDOM = (title, bodyContent, modalId)=>{
     let randomColor = generateRandomColor()
     let parentCard = document.createElement('div')
     let cardTitle = document.createElement('h5')
     let cardBody = document.createElement('div')
     let cardButton = document.createElement('button')
     parentCard.style.backgroundColor = randomColor
-    cardButton.classList.add('btn', 'btn-primary', 'float-right')
-    cardButton.setAttribute('data-toggle', 'modal')
-    cardButton.setAttribute('href', '#'+collapseId)
+    cardButton.classList.add('btn', 'btn-primary', 'float-right', 'card-button')
     parentCard.classList.add('card', 'mb-3', 'custom-card')
     cardTitle.classList.add('card-header')
     cardBody.classList.add('card-body')
@@ -182,6 +127,15 @@ const generateCardDOM = (title, bodyContent, collapseId)=>{
     parentCard.appendChild(cardBody)
     parentCard.appendChild(cardButton)
     return parentCard
+}
+
+const generateRandomColor = ()=>{
+    var letters = 'BCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
 }
 
 let courses = getData('Courses')
@@ -216,7 +170,7 @@ const generateFeaturedCourses = (courses, generateModal)=>{
         overallBody.appendChild(timeBody)
         if(generateModal){
             document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
-            document.querySelector('body').appendChild(generateModalDOM(ID, course.courseName))
+            document.querySelector('#featured-courses-body').appendChild(generateModalDOM(ID, course.courseName))
         } else {
             document.querySelector('#featured-courses-body').appendChild(generateCardDOM(course.courseName, overallBody, ID))
         }
@@ -235,9 +189,9 @@ if(sessionStorage.getItem('isLoggedIn') === null){
 
 document.querySelector('#review-body').addEventListener('input', ()=>{
     if(document.querySelector('#review-body').value.length > 150){
-        document.querySelector('#review-body').value = document.querySelector('#review-body').value.substring(0, 100)
+        document.querySelector('#review-body').value = document.querySelector('#review-body').value.substring(0, 500)
     }  
-    document.querySelector('#word-count').textContent = document.querySelector('#review-body').value.length + '/150'
+    document.querySelector('#word-count').textContent = document.querySelector('#review-body').value.length + '/500'
 })
 
 const calculateAvg = (newValue, query, valueQuery)=>{
@@ -341,11 +295,11 @@ const searchField = document.querySelector('#course-search')
 
 searchField.addEventListener('input', (e)=>{
     if(searchField.value.length > 0){
+
         let recommendations = allCourses.filter((course)=>{
             return nlp(searchField.value, course.courseName)
         })
         document.querySelector('#main-body').style.display = 'none'
-        document.querySelector('#recommendations').innerHTML = ''
         if(recommendations.length > 0){
             recommendations.forEach((rCourse)=>{
                 let ID = Math.random().toString(36).substr(2, 9)
