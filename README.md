@@ -7,4 +7,4 @@ Made over the course of 2 weeks in October 2020.
 Inside contains an original search algorithm optimized for high school acronyms. For example AP CS will search AP Computer Science
 or APUSH will search AP US History. 
 
-https://the-virtual-exp.com
+https://the-virtual-exp.herokuapp.com
